@@ -2,8 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title></title>
+  <title>DataEngineerSyKim — Data Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg:#0b0f1a; --card:#0f172acc; --text:#e5e7eb; --muted:#94a3b8; --accent:#22d3ee; --accent2:#6366f1; --line:#1f2937;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f8fafc; --card:#ffffffcc; --text:#0f172a; --muted:#475569; --accent:#0ea5e9; --accent2:#7c3aed; --line:#e5e7eb; }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, rgba(34,211,238,.12), transparent),
+                  radial-gradient(900px 600px at 90% -10%, rgba(99,102,241,.12), transparent),
+                  radial-gradient(1400px 1000px at 50% 120%, rgba(124,58,237,.08), transparent),
+                  var(--bg);
+      overflow: hidden;
+    }
+    /* Animated aurora layers */
+    .layer, .layer2, .layer3 {
+      position: fixed; inset: -20%;
+      filter: blur(50px);
+      opacity: .45; pointer-events: none; z-index: 0;
+      transform: translateZ(0);
+    }
+    .layer { background: radial-gradient(40% 30% at 20% 10%, rgba(34,211,238,.20), transparent); animation: float1 18s ease-in-out infinite; }
+    .layer2{ background: radial-gradient(35% 28% at 80% 15%, rgba(99,102,241,.18), transparent); animation: float2 22s ease-in-out infinite; }
+    .layer3{ background: radial-gradient(45% 40% at 50% 90%, rgba(236,72,153,.12), transparent); animation: float3 26s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(-2%,3%,0)} }
+    @keyframes float2 { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(2%,-2%,0)} }
+    @keyframes float3 { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,4%,0)} }
+
+    .wrap {
+      position: relative; z-index: 1;
+      height: 100%;
+      display: grid; place-items: center; padding: 24px;
+    }
+    .card {
+      width: min(760px, 92vw);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--card), var(--card)),
+                  linear-gradient(135deg, rgba(34,211,238,.2), rgba(99,102,241,.2));
+      background-clip: padding-box, border-box;
+      border: 1px solid transparent;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px) saturate(120%);
+      padding: clamp(22px, 4vw, 36px);
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex; gap: 10px; align-items: center; justify-content: center;
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      margin-bottom: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 14px var(--accent);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.35)} }
+
+    h1 {
+      margin: 0 0 6px;
+      font-weight: 900;
+      font-size: clamp(28px, 6vw, 48px);
+      letter-spacing: .2px;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    h2 {
+      margin: 4px 0 18px;
+      font-weight: 700; color: var(--muted);
+      font-size: clamp(18px, 3vw, 22px);
+    }
+    .construction {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-weight: 700; letter-spacing: .5px;
+      padding: 10px 14px; border-radius: 12px; margin-top: 4px;
+      border: 1px dashed var(--line); color: var(--text);
+      background: linear-gradient(135deg, rgba(34,211,238,.10), rgba(99,102,241,.10));
+      position: relative; overflow: hidden;
+    }
+    .construction::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 30%, transparent 60%);
+      transform: translateX(-100%); animation: sheen 2.8s ease-in-out infinite;
+    }
+    @keyframes sheen { 0%{transform:translateX(-120%)} 50%{transform:translateX(0)} 100%{transform:translateX(120%)} }
+
+    .links {
+      margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 10px 14px; border-radius: 12px;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      transition: transform .08s ease, border-color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(34,211,238,.5); }
+    .accent { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #0b1220; border-color: transparent; font-weight: 800; }
+
+    footer { margin-top: 18px; color: var(--muted); font-size: 13px; }
+  </style>
 </head>
 <body>
+  <div class="layer"></div>
+  <div class="layer2"></div>
+  <div class="layer3"></div>
+
+  <main class="wrap" role="main">
+    <section class="card" aria-label="Intro">
+      <div class="badge"><span class="dot" aria-hidden="true"></span> <span>Under construction</span></div>
+      <h1>DataEngineerSyKim</h1>
+      <h2>Data Engineer</h2>
+
+      <div class="construction" aria-live="polite" aria-atomic="true">
+        🚧 Under construction… polishing the portfolio experience
+      </div>
+
+      <div class="links" aria-label="Contacts">
+        <a class="btn accent" href="mailto:DataEngineerSyKim@users.noreply.github.com">Email</a>
+        <a class="btn" href="https://github.com/DataEngineerSyKim" target="_blank" rel="noopener">GitHub</a>
+        <!-- Add LinkedIn later
+        <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        -->
+      </div>
+
+      <footer>© <span id="y"></span> DataEngineerSyKim</footer>
+    </section>
+  </main>
+
+  <script>
+    // Set year dynamically; reduce motion if user prefers
+    document.getElementById('y').textContent = new Date().getFullYear();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      for (const el of document.querySelectorAll('.layer, .layer2, .layer3, .construction::after')) {
+        el.style.animation = 'none';
+      }
+    }
+  </script>
 </body>
 </html>
